@@ -7,10 +7,9 @@ const Options = styled.article`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 30px auto 150px;
+  margin: 20px auto 200px;
 
-  select,
-  input {
+  select {
     font-size: 1rem;
     font-family: "Nunito", sans-serif;
     font-weight: 700;
@@ -34,27 +33,15 @@ const Options = styled.article`
 
 const SelectOptions = props => (
   <Options>
-    <input
-      type="number"
-      value={props.number}
-      onChange={event => props.setNumber(event.target.value)}
-    />
     <select onChange={event => props.setCategory(event.target.value)}>
       {options.categories.map(item => (
-        <option value={item.value} key={item.value + item.label}>
+        <option value={item.value} key={item.value + item.value}>
           {item.label}
         </option>
       ))}
     </select>
     <select onChange={event => props.setDifficulty(event.target.value)}>
       {options.levels.map(item => (
-        <option value={item.value} key={item.value + item.label}>
-          {item.label}
-        </option>
-      ))}
-    </select>
-    <select onChange={event => props.setType(event.target.value)}>
-      {options.types.map(item => (
         <option value={item.value} key={item.value + item.label}>
           {item.label}
         </option>

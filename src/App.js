@@ -4,35 +4,24 @@ import Questions from "./Questions";
 import Header from "./Header";
 
 const App = () => {
-  const [data, setData] = useState({ results: [] });
-  const [number, setNumber] = useState("10");
-  const [category, setCategory] = useState("");
-  const [difficulty, setDifficulty] = useState("");
-  const [type, setType] = useState("");
+  const [data, setData] = useState([]);
+  const [category, setCategory] = useState("general-knowledge");
+  const [difficulty, setDifficulty] = useState("easy");
 
   useEffect(() => {
     const fetchData = () => {
-      const uri = `https://opentdb.com/api.php?amount=${number}&category=${category}&difficulty=${difficulty}&type=${type}`;
-      fetch(uri)
+      const url = `https://cocktail-trivia-api.herokuapp.com/api/category/${category}/difficulty/${difficulty}`;
+      fetch(url)
         .then(res => res.json())
-        .then(data => (data.response_code === 0 ? setData(data) : setData([])));
+        .then(data => setData(data.map(item => ({ ...item, clicked: false }))));
     };
     fetchData();
-  }, [number, category, difficulty, type]);
+  }, [category, difficulty]);
 
   return (
     <>
       <Header />
-      <SelectOptions
-        number={number}
-        setNumber={setNumber}
-        category={category}
-        setCategory={setCategory}
-        difficulty={difficulty}
-        setDifficulty={setDifficulty}
-        type={type}
-        setType={setType}
-      />
+      <SelectOptions setCategory={setCategory} setDifficulty={setDifficulty} />
       <Questions data={data} />
     </>
   );

@@ -10,8 +10,8 @@ body {
     font-size: 16px;
     background: #F3F1F1;
 
-    > * {
-        box-sizing: border-box;
+    * {
+      box-sizing: border-box;
   }
 `;
 ReactDOM.render(

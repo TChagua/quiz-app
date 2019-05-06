@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import he from "he";
+import Results from "./Results";
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -11,8 +12,7 @@ const Wrapper = styled.section`
   margin: 50px auto;
 
   h3,
-  ol,
-  div {
+  ol {
     min-width: 316px;
     width: 40%;
   }
@@ -54,49 +54,53 @@ const Wrapper = styled.section`
     border-bottom: solid 2px #0081d9;
   }
 
-  div {
-    display: flex;
-    justify-content: space-between;
+  .red {
+    background: #ee3e37;
   }
-
-  span {
-    border: solid 2px #03d1ab;
-    border-radius: 5px;
-    padding: 5px 20px;
+  .green {
+    background: #03d1ab;
   }
 `;
 
-const Questions = props =>
-  props.data && props.data.results ? (
-    props.data.results.map(item => (
-      <Wrapper key={item.category + item.correct_answer + item.question}>
-        <div>
-          <span>{item.category}</span>
-          <span>{item.difficulty}</span>
-        </div>
-        <h3>{he.decode(item.question)}</h3>
-        <ol>
-          <li
-            key={item.correct_answer + item.question}
-            onClick={e => (e.target.style.background = "#03D1AB")}
-          >
-            {he.decode(item.correct_answer)}
-          </li>
-          {item.incorrect_answers.map(answer => (
-            <li
-              key={answer + item.question}
-              onClick={e => (e.target.style.background = "#EE3E37")}
-            >
-              {he.decode(answer)}
-            </li>
-          ))}
-        </ol>
-      </Wrapper>
-    ))
-  ) : (
-    <h2 style={{ textAlign: "center" }}>
-      Not Enough Questions in the database!
-    </h2>
+const Questions = props => {
+  const [count, setCount] = useState(0);
+
+  const handleClick = (e, answer, item) => {
+    answer.correct && !item.clicked
+      ? (e.target.className = "green")
+      : !answer.correct && !item.clicked
+      ? (e.target.className = "red")
+      : (e.target.className = "");
+    if (e.target.className === "green") setCount(count + 1);
+    return (item.clicked = true);
+  };
+
+  return (
+    <main>
+      {props.data.length > 0 ? (
+        props.data.map(item => (
+          <Wrapper key={item.answers.correct + item.text}>
+            <h3>{he.decode(item.text)}</h3>
+            <ol>
+              {item.answers.map(answer => (
+                <li
+                  key={answer.text + item.text}
+                  onClick={e => handleClick(e, answer, item)}
+                >
+                  {he.decode(answer.text)}
+                </li>
+              ))}
+            </ol>
+          </Wrapper>
+        ))
+      ) : (
+        <h2 style={{ textAlign: "center" }}>
+          Not Enough Questions in the database!
+        </h2>
+      )}
+      <Results count={count} />
+    </main>
   );
+};
 
 export default Questions;
