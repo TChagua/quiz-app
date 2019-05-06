@@ -9,7 +9,12 @@ const Questions = ({ data }) => {
     <main>
       {data && data.length > 0 ? (
         data.map(item => (
-          <QuestionItem item={item} count={count} setCount={setCount} />
+          <QuestionItem
+            item={item}
+            count={count}
+            setCount={setCount}
+            key={item.answers.correct + item.text}
+          />
         ))
       ) : (
         <h2 style={{ textAlign: "center" }}>

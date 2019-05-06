@@ -59,6 +59,9 @@ const Wrapper = styled.section`
   .green {
     background: #03d1ab;
   }
+  .disabled {
+    pointer-events: none;
+  }
 `;
 const QuestionItem = ({ item, count, setCount }) => {
   const handleClick = (e, answer, item) => {
@@ -66,13 +69,19 @@ const QuestionItem = ({ item, count, setCount }) => {
       ? (e.target.className = "green")
       : !answer.correct && !item.clicked
       ? (e.target.className = "red")
-      : (e.target.className = "");
-    if (e.target.className === "green") setCount(count + 1);
+      : (e.target.className = "disabled");
+    if (
+      e.target.classList.contains("green") ||
+      e.target.classList.contains("red")
+    ) {
+      e.target.parentElement.classList.add("disabled");
+    }
+    if (e.target.classList.contains("green")) setCount(count + 1);
     return (item.clicked = true);
   };
 
   return (
-    <Wrapper key={item.answers.correct + item.text}>
+    <Wrapper>
       <h3>{he.decode(item.text)}</h3>
       <ol>
         {item.answers.map(answer => (
