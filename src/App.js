@@ -13,7 +13,7 @@ const App = () => {
       const url = `https://cocktail-trivia-api.herokuapp.com/api/category/${category}/difficulty/${difficulty}`;
       fetch(url)
         .then(res => res.json())
-        .then(data => setData(data.map(item => ({ ...item, clicked: false }))));
+        .then(data => setData(data));
     };
     fetchData();
   }, [category, difficulty]);
@@ -21,7 +21,10 @@ const App = () => {
   return (
     <>
       <Header />
-      <SelectOptions setCategory={setCategory} setDifficulty={setDifficulty} />
+      <SelectOptions
+        onSetCategory={setCategory}
+        onSetDifficulty={setDifficulty}
+      />
       <Questions data={data} />
     </>
   );

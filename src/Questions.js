@@ -12,7 +12,7 @@ const Questions = ({ data }) => {
           <QuestionItem
             item={item}
             count={count}
-            setCount={setCount}
+            onSetCount={setCount}
             key={item.answers.correct + item.text}
           />
         ))

@@ -33,14 +33,14 @@ const Options = styled.article`
 
 const SelectOptions = props => (
   <Options>
-    <select onChange={event => props.setCategory(event.target.value)}>
+    <select onChange={event => props.onSetCategory(event.target.value)}>
       {options.categories.map(item => (
         <option value={item.value} key={item.value + item.value}>
           {item.label}
         </option>
       ))}
     </select>
-    <select onChange={event => props.setDifficulty(event.target.value)}>
+    <select onChange={event => props.onSetDifficulty(event.target.value)}>
       {options.levels.map(item => (
         <option value={item.value} key={item.value + item.label}>
           {item.label}

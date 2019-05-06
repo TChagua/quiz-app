@@ -63,21 +63,14 @@ const Wrapper = styled.section`
     pointer-events: none;
   }
 `;
-const QuestionItem = ({ item, count, setCount }) => {
-  const handleClick = (e, answer, item) => {
-    answer.correct && !item.clicked
-      ? (e.target.className = "green")
-      : !answer.correct && !item.clicked
-      ? (e.target.className = "red")
-      : (e.target.className = "disabled");
-    if (
-      e.target.classList.contains("green") ||
-      e.target.classList.contains("red")
-    ) {
-      e.target.parentElement.classList.add("disabled");
-    }
-    if (e.target.classList.contains("green")) setCount(count + 1);
-    return (item.clicked = true);
+const QuestionItem = ({ item, count, onSetCount }) => {
+  const handleClick = (e, answer) => {
+    answer.correct
+      ? (e.target.className = "green") &&
+        (e.target.parentElement.className = "disabled")
+      : (e.target.className = "red") &&
+        (e.target.parentElement.className = "disabled");
+    if (e.target.classList.contains("green")) onSetCount(count + 1);
   };
 
   return (
@@ -87,7 +80,7 @@ const QuestionItem = ({ item, count, setCount }) => {
         {item.answers.map(answer => (
           <li
             key={answer.text + item.text}
-            onClick={e => handleClick(e, answer, item)}
+            onClick={e => handleClick(e, answer)}
           >
             {he.decode(answer.text)}
           </li>
