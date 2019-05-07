@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import Header from "./Header";
 import SelectOptions from "./SelectOptions";
 import Questions from "./Questions";
-import Header from "./Header";
+import Results from "./Results";
 
 const App = () => {
   const [data, setData] = useState([]);
   const [category, setCategory] = useState("general-knowledge");
   const [difficulty, setDifficulty] = useState("easy");
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     const fetchData = () => {
@@ -18,15 +21,44 @@ const App = () => {
     fetchData();
   }, [category, difficulty]);
 
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
+  };
+
+  const onDragEnd = result => {
+    if (!result.destination || result.destination.index === result.source.index)
+      return;
+
+    const questions = reorder(
+      data,
+      result.source.index,
+      result.destination.index
+    );
+
+    setData(questions);
+  };
+
   return (
-    <>
+    <DragDropContext onDragEnd={onDragEnd}>
       <Header />
       <SelectOptions
         onSetCategory={setCategory}
         onSetDifficulty={setDifficulty}
       />
-      <Questions data={data} />
-    </>
+      <Droppable droppableId="list">
+        {provided => (
+          <div ref={provided.innerRef} {...provided.droppableProps}>
+            <Questions data={data} onSetCount={setCount} count={count} />
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+      {data.length > 0 && <Results count={count} />}
+    </DragDropContext>
   );
 };
 

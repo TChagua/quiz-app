@@ -1,19 +1,20 @@
 import React from "react";
 import styled from "styled-components";
+import { Draggable } from "react-beautiful-dnd";
 import he from "he";
 
 const Wrapper = styled.section`
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 50px auto;
+  margin: 0 auto 50px;
 
   h3,
   ol {
     min-width: 316px;
     width: 40%;
+    background: ${props => (props.dragging ? "aliceblue" : "#f3f1f1")};
   }
 
   ol {
@@ -63,7 +64,7 @@ const Wrapper = styled.section`
     pointer-events: none;
   }
 `;
-const QuestionItem = ({ item, count, onSetCount }) => {
+const QuestionItem = ({ item, index, count, onSetCount }) => {
   const handleClick = (e, answer) => {
     answer.correct
       ? (e.target.className = "green") &&
@@ -74,19 +75,28 @@ const QuestionItem = ({ item, count, onSetCount }) => {
   };
 
   return (
-    <Wrapper>
-      <h3>{he.decode(item.text)}</h3>
-      <ol>
-        {item.answers.map(answer => (
-          <li
-            key={answer.text + item.text}
-            onClick={e => handleClick(e, answer)}
-          >
-            {he.decode(answer.text)}
-          </li>
-        ))}
-      </ol>
-    </Wrapper>
+    <Draggable draggableId={`draggable-${index}`} index={index}>
+      {(provided, snapshot) => (
+        <Wrapper
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          dragging={snapshot.isDragging}
+        >
+          <h3>{he.decode(item.text)}</h3>
+          <ol>
+            {item.answers.map(answer => (
+              <li
+                key={answer.text + item.text}
+                onClick={e => handleClick(e, answer)}
+              >
+                {he.decode(answer.text)}
+              </li>
+            ))}
+          </ol>
+        </Wrapper>
+      )}
+    </Draggable>
   );
 };
 export default QuestionItem;

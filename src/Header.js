@@ -5,13 +5,14 @@ const StyledHeader = styled.header`
 
   h1 {
     font-size: 3rem;
-    font-family: "Akronim", cursive;
+    font-family: "Cinzel", serif;
     color: #03d1ab;
     margin: 0;
     line-height: 2;
     text-shadow: 0 5px 1px rgba(0, 0, 0, 0.04);
     background-color: #fff;
     text-align: center;
+    text-transform: uppercase;
   }
 `;
 const Header = () => (

@@ -10,22 +10,27 @@ const Options = styled.article`
   margin: 20px auto 200px;
 
   select {
-    font-size: 1rem;
+    width: 300px;
+    margin: 10px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    border: transparent;
+    outline: none;
+    border-radius: 0.5em;
+    padding: 5px 15px;
+    font-size: 1.1rem;
     font-family: "Nunito", sans-serif;
     font-weight: 700;
-    color: #444;
-    line-height: 1.3;
-    padding: 0.6em 1.4em 0.5em 0.8em;
-    box-sizing: border-box;
-    margin: 10px 5px;
-    border: 1px solid #aaa;
-    box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
-    border-radius: 0.5rem;
-    background-color: #fff;
+    color: #fff;
+    -webkit-appearance: button;
+    background-image: url(http://i62.tinypic.com/15xvbd5.png),
+      -webkit-linear-gradient(#0081d9, #0081d9 40%, #0081d9);
+    background-color: #0081d9;
+    background-position: 97% center;
+    background-repeat: no-repeat;
   }
 
   option {
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-family: "Nunito", sans-serif;
     font-weight: 400;
   }

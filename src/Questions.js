@@ -1,18 +1,16 @@
-import React, { useState } from "react";
-import Results from "./Results";
+import React from "react";
 import QuestionItem from "./QuestionItem";
 
-const Questions = ({ data }) => {
-  const [count, setCount] = useState(0);
-
+const Questions = ({ data, onSetCount, count }) => {
   return (
     <main>
       {data && data.length > 0 ? (
-        data.map(item => (
+        data.map((item, index) => (
           <QuestionItem
             item={item}
+            index={index}
             count={count}
-            onSetCount={setCount}
+            onSetCount={onSetCount}
             key={item.answers.correct + item.text}
           />
         ))
@@ -21,7 +19,6 @@ const Questions = ({ data }) => {
           Not Enough Questions in the database!
         </h2>
       )}
-      {data.length > 0 && <Results count={count} />}
     </main>
   );
 };
