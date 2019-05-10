@@ -12,7 +12,7 @@ const Options = styled.article`
   select {
     width: 300px;
     margin: 10px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     border: transparent;
     outline: none;
     border-radius: 0.5em;
@@ -23,8 +23,8 @@ const Options = styled.article`
     color: #fff;
     -webkit-appearance: button;
     background-image: url(http://i62.tinypic.com/15xvbd5.png),
-      -webkit-linear-gradient(#0081d9, #0081d9 40%, #0081d9);
-    background-color: #0081d9;
+      -webkit-linear-gradient(#40a4f4, #40a4f4 40%, #40a4f4);
+    background-color: #40a4f4;
     background-position: 97% center;
     background-repeat: no-repeat;
   }

@@ -4,54 +4,49 @@ import { Draggable } from "react-beautiful-dnd";
 import he from "he";
 
 const Wrapper = styled.section`
+  width: 100%;
+  min-width: 316px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 auto 50px;
+  margin: 0 auto 60px;
+  padding: 0 20px;
+  background: ${props => (props.dragging ? "aliceblue" : "#fff")}
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+  border-top: 6px solid #40a4f4;
+  border-radius: 0.5em;
 
   h3,
   ol {
-    min-width: 316px;
-    width: 40%;
-    background: ${props => (props.dragging ? "aliceblue" : "#f3f1f1")};
+    width: 100%;
   }
 
   ol {
     list-style: upper-alpha inside;
     padding: 0;
-    border: solid 2px #0081d9;
-    box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
-    border-radius: 0.5em;
-    overflow: hidden;
   }
 
   h3 {
     padding: 20px 10px;
-    box-sizing: border-box;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
     text-align: center;
     font-size: 1.2rem;
     font-family: "Nunito", sans-serif;
     font-weight: 700;
-    border: solid 2px #0081d9;
-    box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
-    border-radius: 0.5em;
     word-wrap: break-word;
   }
 
   li {
-    padding: 20px;
+    padding: 20px 40px;
     cursor: pointer;
     font-family: "Nunito", sans-serif;
     font-weight: 400;
+    box-shadow: 0 1px 0px 0 rgba(0, 0, 0, 0.05);
   }
 
   li:hover {
-    background: #dfdfdf;
-  }
-
-  ol > li:not(:last-child) {
-    border-bottom: solid 2px #0081d9;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   }
 
   .red {
@@ -77,24 +72,26 @@ const QuestionItem = ({ item, index, count, onSetCount }) => {
   return (
     <Draggable draggableId={`draggable-${index}`} index={index}>
       {(provided, snapshot) => (
-        <Wrapper
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          dragging={snapshot.isDragging}
-        >
-          <h3>{he.decode(item.text)}</h3>
-          <ol>
-            {item.answers.map(answer => (
-              <li
-                key={answer.text + item.text}
-                onClick={e => handleClick(e, answer)}
-              >
-                {he.decode(answer.text)}
-              </li>
-            ))}
-          </ol>
-        </Wrapper>
+        <div style={{ margin: "auto", width: "30%" }}>
+          <Wrapper
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            dragging={snapshot.isDragging}
+          >
+            <h3>{he.decode(item.text)}</h3>
+            <ol>
+              {item.answers.map(answer => (
+                <li
+                  key={answer.text + item.text}
+                  onClick={e => handleClick(e, answer)}
+                >
+                  {he.decode(answer.text)}
+                </li>
+              ))}
+            </ol>
+          </Wrapper>
+        </div>
       )}
     </Draggable>
   );
