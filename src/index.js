@@ -12,8 +12,10 @@ body {
 
     * {
       box-sizing: border-box;
+    }
   }
 `;
+
 ReactDOM.render(
   <>
     <GlobalStyle />

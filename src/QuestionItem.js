@@ -50,10 +50,29 @@ const Wrapper = styled.section`
   }
 
   .red {
-    background: #ee3e37;
+    color: #ee3e37;
+    position: relative;
+
+    &:after {
+      content:"❌";
+      color: #ee3e37;
+      position: absolute;
+      top: 35%;
+      right:20px;
+    }
   }
+
   .green {
-    background: #03d1ab;
+    color: #03d1ab;
+    position: relative;
+
+     &:after {
+      content: "✔️";
+      color: #03d1ab;
+      position: absolute;
+      top: 35%;
+      right:20px;
+     }
   }
   .disabled {
     pointer-events: none;

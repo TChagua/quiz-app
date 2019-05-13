@@ -2,6 +2,8 @@ import React from "react";
 import QuestionItem from "./QuestionItem";
 
 const Questions = ({ data, onSetCount, count }) => {
+  if (data === undefined)
+    return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
   return (
     <main>
       {data && data.length > 0 ? (

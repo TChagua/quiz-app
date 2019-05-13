@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import Header from "./Header";
-import SelectOptions from "./SelectOptions";
 import Questions from "./Questions";
-import Results from "./Results";
+const SelectOptions = lazy(() => import("./SelectOptions"));
+const Results = lazy(() => import("./Results"));
 
 const App = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(undefined);
   const [category, setCategory] = useState("general-knowledge");
   const [difficulty, setDifficulty] = useState("easy");
   const [count, setCount] = useState(0);
@@ -16,7 +16,7 @@ const App = () => {
       const url = `https://cocktail-trivia-api.herokuapp.com/api/category/${category}/difficulty/${difficulty}`;
       fetch(url)
         .then(res => res.json())
-        .then(data => setData(data));
+        .then(data => setData(data || []));
     };
     fetchData();
   }, [category, difficulty]);
@@ -45,10 +45,12 @@ const App = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Header />
-      <SelectOptions
-        onSetCategory={setCategory}
-        onSetDifficulty={setDifficulty}
-      />
+      <Suspense fallback={<span />}>
+        <SelectOptions
+          onSetCategory={setCategory}
+          onSetDifficulty={setDifficulty}
+        />
+      </Suspense>
       <Droppable droppableId="list">
         {provided => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -57,7 +59,11 @@ const App = () => {
           </div>
         )}
       </Droppable>
-      {data.length > 0 && <Results count={count} />}
+      {data && data.length > 0 && (
+        <Suspense fallback={<span />}>
+          <Results count={count} />
+        </Suspense>
+      )}
     </DragDropContext>
   );
 };
