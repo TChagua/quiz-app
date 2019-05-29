@@ -1,9 +1,17 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import Loadable from "react-loadable";
 import Header from "./Header";
 import Questions from "./Questions";
-const SelectOptions = lazy(() => import("./SelectOptions"));
-const Results = lazy(() => import("./Results"));
+const SelectOptions = Loadable({
+  loader: () => import(/* webpackChunkName: 'SelectOptions' */ "./SelectOptions"),
+  loading: () => <span />
+});
+
+const Results = Loadable({
+  loader: () => import(/* webpackChunkName: 'Results' */ "./Results"),
+  loading: () => <span />
+});
 
 const App = () => {
   const [data, setData] = useState(undefined);
@@ -30,14 +38,9 @@ const App = () => {
   };
 
   const onDragEnd = result => {
-    if (!result.destination || result.destination.index === result.source.index)
-      return;
+    if (!result.destination || result.destination.index === result.source.index) return;
 
-    const questions = reorder(
-      data,
-      result.source.index,
-      result.destination.index
-    );
+    const questions = reorder(data, result.source.index, result.destination.index);
 
     setData(questions);
   };
@@ -45,12 +48,7 @@ const App = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Header />
-      <Suspense fallback={<span />}>
-        <SelectOptions
-          onSetCategory={setCategory}
-          onSetDifficulty={setDifficulty}
-        />
-      </Suspense>
+      <SelectOptions onSetCategory={setCategory} onSetDifficulty={setDifficulty} category={category} difficulty={difficulty} />
       <Droppable droppableId="list">
         {provided => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -59,11 +57,7 @@ const App = () => {
           </div>
         )}
       </Droppable>
-      {data && data.length > 0 && (
-        <Suspense fallback={<span />}>
-          <Results count={count} />
-        </Suspense>
-      )}
+      {data && data.length > 0 && <Results count={count} />}
     </DragDropContext>
   );
 };
