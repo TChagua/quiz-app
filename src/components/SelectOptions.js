@@ -32,8 +32,8 @@ const customStyles = {
   }),
   placeholder: styles => ({ ...styles, backgroundColor: "#40a4f4", color: "#fff", fontSize: "1.1rem", fontWeight: "700" }),
   singleValue: styles => ({ ...styles, color: "#fff", fontSize: "1.1rem", fontWeight: "700" }),
-  dropdownIndicator: styles => ({ ...styles, color: "#fff" }),
-  indicatorSeparator: styles => ({ ...styles, color: "#fff" }),
+  dropdownIndicator: styles => ({ ...styles, color: "#fff", cursor: "pointer", "&:hover": { color: "#03d1ab" } }),
+  indicatorSeparator: styles => ({ ...styles, backgroundColor: "#fff" }),
   menu: styles => ({ ...styles, borderRadius: "1rem" }),
   menuList: styles => ({ ...styles, padding: 0, margin: 0, borderRadius: "1rem" })
 };

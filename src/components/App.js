@@ -3,6 +3,7 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import Loadable from "react-loadable";
 import Header from "./Header";
 import Questions from "./Questions";
+
 const SelectOptions = Loadable({
   loader: () => import(/* webpackChunkName: 'SelectOptions' */ "./SelectOptions"),
   loading: () => <span />
@@ -48,7 +49,7 @@ const App = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Header />
-      <SelectOptions onSetCategory={setCategory} onSetDifficulty={setDifficulty} category={category} difficulty={difficulty} />
+      {data && <SelectOptions onSetCategory={setCategory} onSetDifficulty={setDifficulty} category={category} difficulty={difficulty} />}
       <Droppable droppableId="list">
         {provided => (
           <div ref={provided.innerRef} {...provided.droppableProps}>

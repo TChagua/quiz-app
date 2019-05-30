@@ -1,11 +1,14 @@
 import React from "react";
 import Loadable from "react-loadable";
+import Loader from "./Loader";
+
 const QuestionItem = Loadable({
   loader: () => import(/* webpackChunkName: 'QuestionItem' */ "./QuestionItem"),
   loading: () => <span />
 });
+
 const Questions = ({ data, onSetCount, count }) => {
-  if (data === undefined) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
+  if (data === undefined) return <Loader />;
   return (
     <main>
       {data && data.length > 0 ? (

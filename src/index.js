@@ -1,7 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./components/App";
+import Loadable from "react-loadable";
 import { createGlobalStyle } from "styled-components";
+import App from "./components/App";
+
 const GlobalStyle = createGlobalStyle`
 body {
     margin: 0;
@@ -15,10 +17,12 @@ body {
   }
 `;
 
-ReactDOM.render(
-  <>
-    <GlobalStyle />
-    <App />
-  </>,
-  document.getElementById("root")
-);
+Loadable.preloadReady().then(() => {
+  ReactDOM.hydrate(
+    <>
+      <GlobalStyle />
+      <App />
+    </>,
+    document.getElementById("root")
+  );
+});
