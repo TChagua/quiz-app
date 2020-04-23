@@ -1,8 +1,8 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import Loadable from "react-loadable";
-import { createGlobalStyle } from "styled-components";
-import App from "./components/App";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Loadable from 'react-loadable'
+import { createGlobalStyle } from 'styled-components'
+import App from './components/App'
 
 const GlobalStyle = createGlobalStyle`
 body {
@@ -15,7 +15,7 @@ body {
       box-sizing: border-box;
     }
   }
-`;
+`
 
 Loadable.preloadReady().then(() => {
   ReactDOM.hydrate(
@@ -23,6 +23,6 @@ Loadable.preloadReady().then(() => {
       <GlobalStyle />
       <App />
     </>,
-    document.getElementById("root")
-  );
-});
+    document.getElementById('root')
+  )
+})

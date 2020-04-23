@@ -1,5 +1,5 @@
-import React from "react";
-import styled, { keyframes } from "styled-components";
+import React from 'react'
+import styled, { keyframes } from 'styled-components'
 
 const load = keyframes`
  0%,
@@ -10,7 +10,7 @@ const load = keyframes`
   40% {
     box-shadow: 0 2.5em 0 0;
   }
-`;
+`
 
 const StyledLoader = styled.div`
   .loader,
@@ -33,7 +33,7 @@ const StyledLoader = styled.div`
   }
   .loader:before,
   .loader:after {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
   }
@@ -44,12 +44,12 @@ const StyledLoader = styled.div`
   .loader:after {
     left: 3.5em;
   }
-`;
+`
 
 export default function Loader() {
   return (
     <StyledLoader>
-      <div className="loader" />
+      <div className='loader' />
     </StyledLoader>
-  );
+  )
 }

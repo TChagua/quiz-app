@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
 const StyledHeader = styled.header`
   width: 100%;
 
   h1 {
     font-size: 3rem;
-    font-family: "Cinzel", serif;
+    font-family: 'Cinzel', serif;
     color: #03d1ab;
     margin: 0;
     line-height: 2;
@@ -14,11 +14,11 @@ const StyledHeader = styled.header`
     text-align: center;
     text-transform: uppercase;
   }
-`;
+`
 const Header = () => (
   <StyledHeader>
     <h1>It is Quiz Time!</h1>
   </StyledHeader>
-);
+)
 
-export default Header;
+export default Header

@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { Draggable } from "react-beautiful-dnd";
-import he from "he";
+import React, { useState } from 'react'
+import styled from 'styled-components'
+import { Draggable } from 'react-beautiful-dnd'
+import he from 'he'
 
 const Wrapper = styled.section`
   width: 100%;
@@ -12,7 +12,7 @@ const Wrapper = styled.section`
   align-items: center;
   margin: 0 auto 60px;
   padding: 0 20px;
-  background: ${props => (props.dragging ? "aliceblue" : "#fff")}
+  background: ${(props) => (props.dragging ? 'aliceblue' : '#fff')}
   box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
   border-top: 6px solid #40a4f4;
   border-radius: 0.5em;
@@ -23,6 +23,7 @@ const Wrapper = styled.section`
   }
 
   ol {
+    position: relative;
     list-style: upper-alpha inside;
     padding: 0;
   }
@@ -43,13 +44,13 @@ const Wrapper = styled.section`
     font-family: "Nunito", sans-serif;
     font-weight: 400;
     box-shadow: 0 1px 0px 0 rgba(0, 0, 0, 0.05);
+
+      &:hover {
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    }
   }
 
-  li:hover {
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  }
-
-  .red {
+  .wrong {
     color: #ee3e37;
     position: relative;
 
@@ -62,7 +63,7 @@ const Wrapper = styled.section`
     }
   }
 
-  .green {
+  .right {
     color: #03d1ab;
     position: relative;
 
@@ -74,45 +75,62 @@ const Wrapper = styled.section`
       right:20px;
      }
   }
+  
   .disabled {
     pointer-events: none;
   }
-`;
+
+  .correct {
+    position: absolute;
+    top: -70px;
+    left:0;
+    width:100%;
+    height:40px;
+    text-align: center;
+    line-height: 40px;
+    font-size:25px;
+    color: #fff;
+    background: #03d1ab;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3)
+  }
+`
+
 const QuestionItem = ({ item, index, count, onSetCount }) => {
+  const [showAnswer, setShow] = useState(false)
   const handleClick = (e, answer) => {
     answer.correct
-      ? (e.target.className = "green") &&
-        (e.target.parentElement.className = "disabled")
-      : (e.target.className = "red") &&
-        (e.target.parentElement.className = "disabled");
-    if (e.target.classList.contains("green")) onSetCount(count + 1);
-  };
+      ? (e.target.className = 'right') && (e.target.parentElement.className = 'disabled')
+      : (e.target.className = 'wrong') && (e.target.parentElement.className = 'disabled')
+    if (e.target.classList.contains('right')) onSetCount(count + 1)
+    else setShow(true)
+  }
 
   return (
     <Draggable draggableId={`draggable-${index}`} index={index}>
       {(provided, snapshot) => (
-        <div style={{ margin: "auto", width: "30%" }}>
+        <div style={{ margin: 'auto', width: '30%' }}>
           <Wrapper
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            dragging={snapshot.isDragging}
-          >
+            dragging={snapshot.isDragging}>
             <h3>{he.decode(item.text)}</h3>
             <ol>
-              {item.answers.map(answer => (
-                <li
-                  key={answer.text + item.text}
-                  onClick={e => handleClick(e, answer)}
-                >
+              {item.answers.map((answer) => (
+                <li key={answer.text + item.text} onClick={(e) => handleClick(e, answer)}>
                   {he.decode(answer.text)}
                 </li>
               ))}
+              {showAnswer && (
+                <p className='correct'>
+                  Correct Answer - {item.answers.find((answer) => answer.correct).text}
+                </p>
+              )}
             </ol>
           </Wrapper>
         </div>
       )}
     </Draggable>
-  );
-};
-export default QuestionItem;
+  )
+}
+export default QuestionItem
